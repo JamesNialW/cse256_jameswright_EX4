@@ -31,18 +31,27 @@ def correct_input(user_input, random_word, revealed_word):
         if user_input == random_word[i]:
             revealed_word[i] = user_input
 
-    print(f'Correct! So far you have revealed: {revealed_word}')
+    if revealed_word == list(random_word):
+        print(f'Correct! You have revealed the entire word: {random_word}')
+    else:
+        print(f'Correct! So far you have revealed: {revealed_word}')
 
 def incorrect_input(user_input, revealed_word):
     print(f'Incorrect. {user_input} is not in the word. So far you have revealed: {revealed_word}')
 
-def assess_guess(user_input, random_word, revealed_word):
+def assess_guess(user_input, random_word, revealed_word, false_guesses):
     if user_input in random_word:
         # Print confirmation message and update revealed_word.
         correct_input(user_input, random_word, revealed_word)
     else:
         # Print incorrect message.
         incorrect_input(user_input, revealed_word)
+    
+        # Track number of attempts.
+        false_guesses += 1
+        print(f'You have made {false_guesses}/15 wrong guesses.')
+
+    return false_guesses
 
 if __name__ == '__main__':
     while True:
@@ -50,14 +59,19 @@ if __name__ == '__main__':
 
         revealed_word = ['_'] * len(random_word)
 
+        false_guesses = 0
+
         # Continuously prompt user to guess until word is complete.
         while True:
+            if false_guesses == 15:
+                print(f'You have reached the maximum number of attempts. The word was: {random_word}')
+                break
+
             # Prompt user to guess.
             user_input = str(input("Guess a letter: ")).lower()
 
-            assess_guess(user_input, random_word, revealed_word)
+            false_guesses = assess_guess(user_input, random_word, revealed_word, false_guesses)
 
             if revealed_word == list(random_word):
-                # Print congratulations message and break out of loop.
-                print(f'Congratulations! You guessed the word: {random_word}')
+                # Congratulations message prints in correct_input function. Break out of loop.
                 break
