@@ -39,10 +39,14 @@ def correct_input(user_input, random_word, revealed_word):
 def incorrect_input(user_input, revealed_word):
     print(f'Incorrect. {user_input} is not in the word. So far you have revealed: {revealed_word}')
 
-def assess_guess(user_input, random_word, revealed_word, false_guesses):
-    if user_input in random_word:
+def assess_guess(user_input, random_word, revealed_word, false_guesses, guessed_letters):
+    if user_input in guessed_letters:
+        print(f'You have already guessed {user_input}.')
+    elif user_input in random_word:
         # Print confirmation message and update revealed_word.
         correct_input(user_input, random_word, revealed_word)
+
+        guessed_letters.append(user_input)
     else:
         # Print incorrect message.
         incorrect_input(user_input, revealed_word)
@@ -50,6 +54,8 @@ def assess_guess(user_input, random_word, revealed_word, false_guesses):
         # Track number of attempts.
         false_guesses += 1
         print(f'You have made {false_guesses}/15 wrong guesses.')
+
+        guessed_letters.append(user_input)
 
     return false_guesses
 
@@ -61,6 +67,8 @@ if __name__ == '__main__':
 
         false_guesses = 0
 
+        guessed_letters = []
+
         # Continuously prompt user to guess until word is complete.
         while True:
             if false_guesses == 15:
@@ -70,7 +78,7 @@ if __name__ == '__main__':
             # Prompt user to guess.
             user_input = str(input("Guess a letter: ")).lower()
 
-            false_guesses = assess_guess(user_input, random_word, revealed_word, false_guesses)
+            false_guesses = assess_guess(user_input, random_word, revealed_word, false_guesses, guessed_letters)
 
             if revealed_word == list(random_word):
                 # Congratulations message prints in correct_input function. Break out of loop.

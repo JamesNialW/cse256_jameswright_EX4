@@ -36,7 +36,7 @@ def test_assess_guess():
 
     # Test that correct input is correctly processed.
     # guess_count_holder_variable is used to capture the return value of assess_guess.
-    guess_count_holder_variable = assess_guess(random_word[0], random_word, revealed_word, 0)
+    guess_count_holder_variable = assess_guess(random_word[0], random_word, revealed_word, 0, [])
     assert revealed_word != original_revealed_word
 
     # Test that incorrect input is correctly processed.
@@ -45,7 +45,7 @@ def test_assess_guess():
 
     test_word = 'bunny'
     # guess_count_holder_variable is used to capture the return value of assess_guess.
-    guess_count_holder_variable = assess_guess('a', test_word, revealed_word, 0)
+    guess_count_holder_variable = assess_guess('a', test_word, revealed_word, 0, [])
     assert revealed_word == original_revealed_word
 
 test_random_word()
